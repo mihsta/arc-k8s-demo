@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: arc-k8s-demo
+  name: diplomapp-frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: arc-k8s-demo
+      app: diplomapp-frontend
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -15,14 +15,14 @@ spec:
   template:
     metadata:
       labels:
-        app: arc-k8s-demo
+        app: diplomapp-frontend
     spec:
       nodeSelector:
         kubernetes.io/arch: amd64
         kubernetes.io/os: linux
       containers:
-      - name: arc-k8s-demo
-        image: arck8sconformance.azurecr.io/samples/demo:v0.1.0
+      - name: diplomapp-frontend
+        image: mihailsta/diplomapp-frontend:0.1.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -39,12 +39,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: arc-k8s-demo
+  name: diplomapp-frontend
   labels:
-    name: arc-k8s-demo
+    name: diplomapp-frontend
 spec:
   type: ClusterIP
   ports:
   - port: 8080
   selector:
-    app: arc-k8s-demo
+    app: diplomapp-frontend
